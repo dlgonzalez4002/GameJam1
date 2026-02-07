@@ -23,7 +23,7 @@ public class PlayerControls : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(rb.linearVelocity.x/playerSpeed);
+        //Debug.Log(rb.linearVelocity.x/playerSpeed);
         // Only cares about the velocities in the x and z direction
         playerSpeed = (float) Math.Sqrt(Math.Pow(rb.linearVelocity.x, 2) + Math.Pow(rb.linearVelocity.z, 2));
 
