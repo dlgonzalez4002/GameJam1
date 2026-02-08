@@ -1,11 +1,12 @@
 using UnityEngine;
+using TMPro;
 
 public class TotalItems : MonoBehaviour
 {
     public static TotalItems Instance;
     public int totalItems = 0;
 
-
+    public TextMeshProUGUI ItemText;
     private void Start()
     {
         UpdateItemText();
@@ -27,6 +28,6 @@ public class TotalItems : MonoBehaviour
 
     void UpdateItemText()
     {
-        Debug.Log("Items: " + totalItems);
+        ItemText.text = "Items: " + totalItems;
     }
 }
