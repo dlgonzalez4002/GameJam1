@@ -9,6 +9,7 @@ public class ItemPickUp : MonoBehaviour
         if (collision.gameObject.CompareTag("PickUp"))
         {
             TotalItems.Instance.AddItem(1);
+            AudioManager.Play("ItemCollect");
             Destroy(gameObject);
         }
     }

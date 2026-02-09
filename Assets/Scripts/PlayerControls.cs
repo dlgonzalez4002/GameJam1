@@ -74,7 +74,8 @@ public class PlayerControls : MonoBehaviour
         {
             rb.AddForce(0, jumpForce, 0, ForceMode.Impulse);
             numJumps++;
-        } 
+            AudioManager.Play("Jump");
+        }
         else
         {
             canJump = false;
