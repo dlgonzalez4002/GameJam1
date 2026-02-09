@@ -17,6 +17,8 @@ public class PlayerControls : MonoBehaviour
     private Rigidbody rb;
     private Vector2 moveInput;
 
+    private Vector3 death = new Vector3(-12.82f, 0.216f, -4.73f);
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -25,18 +27,18 @@ public class PlayerControls : MonoBehaviour
     {
         //Debug.Log(rb.linearVelocity.x/playerSpeed);
         // Only cares about the velocities in the x and z direction
-        playerSpeed = (float) Math.Sqrt(Math.Pow(rb.linearVelocity.x, 2) + Math.Pow(rb.linearVelocity.z, 2));
+        playerSpeed = (float)Math.Sqrt(Math.Pow(rb.linearVelocity.x, 2) + Math.Pow(rb.linearVelocity.z, 2));
 
         // The player is dashing when they are moving faster than their movespeed
         if (playerSpeed > moveSpeed)
         {
             isDashing = true;
         }
-        
+
         // !canDash is asking if the player is dashing, false meaning they are
         if (isDashing)
         {
-            rb.AddForce(-Mathf.Sign(rb.linearVelocity.x)*5/2, 0, -Mathf.Sign(rb.linearVelocity.z)*5/2);
+            rb.AddForce(-Mathf.Sign(rb.linearVelocity.x) * 5 / 2, 0, -Mathf.Sign(rb.linearVelocity.z) * 5 / 2);
             if (playerSpeed <= moveSpeed)
             {
                 isDashing = false;
@@ -51,7 +53,7 @@ public class PlayerControls : MonoBehaviour
                 return;
             }
         }
-        
+
 
         // Moves the player based on their input
         rb.AddForce(moveInput.x * moveSpeed, 0, moveInput.y * moveSpeed);
@@ -87,12 +89,12 @@ public class PlayerControls : MonoBehaviour
         if (canDash)
         {
             canDash = false;
-            rb.AddForce(rb.linearVelocity.x/playerSpeed * dashForce, 0, rb.linearVelocity.z/playerSpeed * dashForce, ForceMode.Impulse);
+            rb.AddForce(rb.linearVelocity.x / playerSpeed * dashForce, 0, rb.linearVelocity.z / playerSpeed * dashForce, ForceMode.Impulse);
         }
     }
 
     void OnMove(InputValue input)
-    {   
+    {
         moveInput = input.Get<Vector2>();
     }
 
@@ -108,6 +110,12 @@ public class PlayerControls : MonoBehaviour
 
             canDash = true;
         }
+
+        if (collision.gameObject.CompareTag("Evil"))
+        {
+            transform.position = death;
+            AudioManager.Play("Death");
+        }
     }
 
     void OnCollisionExit(Collision collision)
@@ -118,4 +126,5 @@ public class PlayerControls : MonoBehaviour
             inAir = true;
         }
     }
+    
 }
