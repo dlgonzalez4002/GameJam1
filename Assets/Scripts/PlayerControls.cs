@@ -8,6 +8,7 @@ public class PlayerControls : MonoBehaviour
     [SerializeField] private int maxJumps;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float dashForce;
+    private Transform cameraTransform;
     private bool canJump = true;
     private int numJumps = 0;
     private bool canDash = true;
@@ -22,6 +23,7 @@ public class PlayerControls : MonoBehaviour
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        cameraTransform = Camera.main.transform;
     }
     void Update()
     {
@@ -56,7 +58,22 @@ public class PlayerControls : MonoBehaviour
 
 
         // Moves the player based on their input
-        rb.AddForce(moveInput.x * moveSpeed, 0, moveInput.y * moveSpeed);
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
+
+        // Remove vertical influence
+        camForward.y = 0;
+        camRight.y = 0;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        // Convert input into world space based on camera
+        Vector3 moveDirection =
+        camForward * moveInput.y +
+        camRight * moveInput.x;
+
+        rb.AddForce(moveDirection * moveSpeed);
 
         if (playerSpeed > 0)
         {
