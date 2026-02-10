@@ -23,7 +23,7 @@ public class TotalItems : MonoBehaviour
     public void AddItem(int amount)
     {
         totalItems += amount;
-         UpdateItemText();
+        UpdateItemText();
     }
 
     void UpdateItemText()
